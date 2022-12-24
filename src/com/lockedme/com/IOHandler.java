@@ -86,7 +86,14 @@ public class IOHandler {
 
 		try {
 			Stream<Path> pathStart = Files.walk(rootPath);
+			
 			List<String> sortableList = new ArrayList<String>();
+			
+			if(sortableList.isEmpty()) {
+				System.out.println("No files in " + rootPathString);
+				pathStart.close();
+				return;
+			}
 
 			pathStart.forEach(object -> {
 				File myObj = new File(object.toString());
