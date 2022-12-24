@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Stream;
@@ -50,33 +51,38 @@ public class IOHandler {
 	}
 
 	public static void DisplayMenu1Handler() {
-		IOHandler.makeNewFolderAndFiles();
 		boolean run = true;
 		while (run) {
-			DisplayOptions.DisplayMenu1Handler();
-			int option = sc.nextInt();
+			try {
+				DisplayOptions.DisplayMenu1Handler();
+				int option = sc.nextInt();
 
-			switch (option) {
-			case 1:
-				IOHandler.makeNewFolderAndFiles();
-				IOHandler.showAllFiles();
-				break;
-			case 2:
-				IOHandler.ExpertOptions();
-				break;
-			case 3:
-				System.out.println("Exiting LockMe.com");
-				run = false;
-				sc.close();
+				switch (option) {
+				case 1:
+					IOHandler.showAllFiles();
+					break;
+				case 2:
+					IOHandler.ExpertOptions();
+					break;
+				case 3:
+					System.out.println("Exiting LockMe.com");
+					run = false;
+					sc.close();
+					return;
+				default:
+					System.out.println("Enter a valid option from 1-3\n");
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("Enter a valid option from 1-3.\n");
+				sc.nextLine();
+				DisplayMenu1Handler();
 				return;
-			default:
-				System.out.println("Enter a valid option from 1-3\n");
 			}
 		}
 	}
 
 	public static void showAllFiles() {
-		Path rootPath = Paths.get(".//FilesFolder//");
+		Path rootPath = Paths.get(rootPathString);
 
 		try {
 			Stream<Path> pathStart = Files.walk(rootPath);
@@ -88,22 +94,22 @@ public class IOHandler {
 					sortableList.add(myObj.getName());
 				}
 			});
-			
-			Collections.sort(sortableList, new Comparator<String>() {
-		        public int compare(String o1, String o2) {
-		            return extractInt(o1) - extractInt(o2);
-		        }
 
-		        int extractInt(String s) {
-		            String num = s.replaceAll("\\D", "");
-		            return num.isEmpty() ? 0 : Integer.parseInt(num);
-		        }
-		    });
-			
+			Collections.sort(sortableList, new Comparator<String>() {
+				public int compare(String o1, String o2) {
+					return extractInt(o1) - extractInt(o2);
+				}
+
+				int extractInt(String s) {
+					String num = s.replaceAll("\\D", "");
+					return num.isEmpty() ? 0 : Integer.parseInt(num);
+				}
+			});
+
 			sortableList.forEach(fileName -> {
 				System.out.println(fileName);
 			});
-			
+
 			pathStart.close();
 		} catch (IOException e) {
 			System.out.println("**An error occured in printing all files in FilesFolder.");
@@ -113,54 +119,60 @@ public class IOHandler {
 
 	public static void ExpertOptions() {
 		boolean run = true;
-		while (run) {
-			DisplayOptions.DisplayMenu2();
-			int option = sc.nextInt();
+		try {
+			while (run) {
+				DisplayOptions.DisplayMenu2();
+				int option = sc.nextInt();
 
-			String fileName;
-			Path fileNamePath;
+				String fileName;
+				Path fileNamePath;
 
-			switch (option) {
-			case 1:
-				sc.nextLine();
-				System.out.println("Enter the name of the file to search below.");
-				fileName = sc.nextLine();
-				fileNamePath = Paths.get(rootPathString, "/" + fileName + ".txt");
-				searchFile(fileNamePath);
-				break;
-			case 2:
-				sc.nextLine();
-				System.out.println("Enter the name of the file to add below.");
-				fileName = sc.nextLine();
-				fileNamePath = Paths.get(rootPathString, "/" + fileName + ".txt");
-				makeNewFile(fileNamePath);
-				break;
-			case 3:
-				sc.nextLine();
-				System.out.println("Enter the name of the file to write below.");
-				fileName = sc.nextLine();
-				fileName = rootPathString + "/" + fileName + ".txt";
-				writeFile(fileName);
-				break;
-			case 4:
-				sc.nextLine();
-				System.out.println("Enter the name of the file to delete below. (Case Insensitive)");
-				fileName = sc.nextLine();
-				fileNamePath = Paths.get(rootPathString, "/" + fileName + ".txt");
-				deleteFile(fileNamePath);
-				break;
-			case 5:
-				System.out.println("Exiting To Main Menu.");
-				return;
-			case 6:
-				System.out.println("Exiting LockMe.com\nBbye!");
-				run = false;
-				sc.close();
-				System.exit(0);
-				return;
-			default:
-				System.out.println("Enter a valid option from 1-6");
+				switch (option) {
+				case 1:
+					sc.nextLine();
+					System.out.println("Enter the name of the file to search below.");
+					fileName = sc.nextLine();
+					fileNamePath = Paths.get(rootPathString, "/" + fileName + ".txt");
+					searchFile(fileNamePath);
+					break;
+				case 2:
+					sc.nextLine();
+					System.out.println("Enter the name of the file to add below.");
+					fileName = sc.nextLine();
+					fileNamePath = Paths.get(rootPathString, "/" + fileName + ".txt");
+					makeNewFile(fileNamePath);
+					break;
+				case 3:
+					sc.nextLine();
+					System.out.println("Enter the name of the file to write below.");
+					fileName = sc.nextLine();
+					fileName = rootPathString + "/" + fileName + ".txt";
+					writeFile(fileName);
+					break;
+				case 4:
+					sc.nextLine();
+					System.out.println("Enter the name of the file to delete below. (Case Insensitive)");
+					fileName = sc.nextLine();
+					fileNamePath = Paths.get(rootPathString, "/" + fileName + ".txt");
+					deleteFile(fileNamePath);
+					break;
+				case 5:
+					System.out.println("Exiting To Main Menu.");
+					return;
+				case 6:
+					System.out.println("Exiting LockMe.com\nBbye!");
+					run = false;
+					sc.close();
+					System.exit(0);
+					return;
+				default:
+					System.out.println("Enter a valid option from 1-6");
+				}
 			}
+		} catch (InputMismatchException e) {
+			System.out.println("Enter a valid option from 1-6.\n");
+			sc.nextLine();
+			ExpertOptions();
 		}
 	}
 
