@@ -28,7 +28,7 @@ public class IOHandler {
 		} catch (FileAlreadyExistsException e) {
 			// IGNORING THIS EXCEPTION
 		} catch (IOException e) {
-			System.out.println("**An error occured in creating FilesFolder Directory.");
+			System.out.println("**An error occurred in creating FilesFolder Directory.");
 			e.printStackTrace();
 		}
 
@@ -44,7 +44,7 @@ public class IOHandler {
 		} catch (FileAlreadyExistsException e) {
 			// IGNORING THIS EXCEPTION
 		} catch (IOException e) {
-			System.out.println("**An error occured in creating " + fileName + ".");
+			System.out.println("**An error occurred in creating " + fileName + ".");
 			e.printStackTrace();
 		}
 	}
@@ -118,7 +118,7 @@ public class IOHandler {
 
 			pathStart.close();
 		} catch (IOException e) {
-			System.out.println("**An error occured in printing all files in FilesFolder.");
+			System.out.println("**An error occurred in printing all files in FilesFolder.");
 			e.printStackTrace();
 		}
 	}
@@ -189,7 +189,7 @@ public class IOHandler {
 		} catch (FileAlreadyExistsException e) {
 			// IGNORING THIS EXCEPTION
 		} catch (IOException e) {
-			System.out.println("**An error occured in creating " + fileNamePath + ".");
+			System.out.println("**An error occurred in creating " + fileNamePath + ".");
 			e.printStackTrace();
 		}
 	}
@@ -203,7 +203,7 @@ public class IOHandler {
 			writer.close();
 			System.out.println("File written successfully.");
 		} catch (IOException e) {
-			System.out.println("**An error occured in writing in " + fileNamePath + ".");
+			System.out.println("**An error occurred in writing in " + fileNamePath + ".");
 			e.printStackTrace();
 		}
 	}
@@ -221,9 +221,9 @@ public class IOHandler {
 			Files.delete(fileName);
 			System.out.println(fileName + " deleted successfully.");
 		} catch (NoSuchFileException e) {
-			System.out.println("**An error occured in deleting " + fileName + ".\n**" + fileName + " does not exist.");
+			System.out.println("**An error occurred in deleting " + fileName + ".\n**" + fileName + " does not exist.");
 		} catch (IOException e) {
-			System.out.println("**An error occured in deleting " + fileName + ".");
+			System.out.println("**An error occurred in deleting " + fileName + ".");
 			e.printStackTrace();
 		}
 	}
