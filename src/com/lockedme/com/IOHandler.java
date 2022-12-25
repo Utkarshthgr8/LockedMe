@@ -16,7 +16,6 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Stream;
-
 public class IOHandler {
 
 	static Scanner sc = new Scanner(System.in);
@@ -45,8 +44,8 @@ public class IOHandler {
 		} catch (FileAlreadyExistsException e) {
 			// IGNORING THIS EXCEPTION
 		} catch (IOException e) {
-			e.printStackTrace();
 			System.out.println("**An error occured in creating " + fileName + ".");
+			e.printStackTrace();
 		}
 	}
 
@@ -88,12 +87,6 @@ public class IOHandler {
 			Stream<Path> pathStart = Files.walk(rootPath);
 			
 			List<String> sortableList = new ArrayList<String>();
-			
-			if(sortableList.isEmpty()) {
-				System.out.println("No files in " + rootPathString);
-				pathStart.close();
-				return;
-			}
 
 			pathStart.forEach(object -> {
 				File myObj = new File(object.toString());
@@ -101,6 +94,12 @@ public class IOHandler {
 					sortableList.add(myObj.getName());
 				}
 			});
+			
+			if(sortableList.isEmpty()) {
+				System.out.println("No files in " + rootPathString);
+				pathStart.close();
+				return;
+			}
 
 			Collections.sort(sortableList, new Comparator<String>() {
 				public int compare(String o1, String o2) {
@@ -128,7 +127,7 @@ public class IOHandler {
 		boolean run = true;
 		try {
 			while (run) {
-				DisplayOptions.DisplayMenu2();
+				DisplayOptions.DisplayMenu2Handler();
 				int option = sc.nextInt();
 
 				String fileName;
@@ -190,8 +189,8 @@ public class IOHandler {
 		} catch (FileAlreadyExistsException e) {
 			// IGNORING THIS EXCEPTION
 		} catch (IOException e) {
-			e.printStackTrace();
 			System.out.println("**An error occured in creating " + fileNamePath + ".");
+			e.printStackTrace();
 		}
 	}
 
